@@ -2,7 +2,7 @@
  * Módulo TICKETS - Gestión de recibos/tickets
  */
 
-import { getTickets, deleteTicket, formatDate, formatMoney } from '../api.js';
+import { getTickets, deleteTicket, formatDate, formatMoney } from '../api.js?v=3';
 
 export async function render(container, user) {
     let tickets = [];

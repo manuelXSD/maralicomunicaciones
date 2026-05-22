@@ -2,7 +2,7 @@
  * Módulo FACTURACIÓN - Gestión de facturas e invoices
  */
 
-import { getFacturas, createFactura, deleteFactura, formatDate, formatMoney } from '../api.js';
+import { getFacturas, createFactura, deleteFactura, formatDate, formatMoney } from '../api.js?v=3';
 
 export async function render(container, user) {
     let facturas = [];

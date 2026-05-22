@@ -9,7 +9,7 @@ import {
     deleteProducto,
     uploadFile,
     deleteFile 
-} from '../api.js';
+} from '../api.js?v=3';
 
 export async function render(container, user) {
     let productos = [];

@@ -2,7 +2,7 @@
  * Módulo HISTORIAL - Visualización de ventas anteriores
  */
 
-import { getVentas, formatDate, formatMoney } from '../api.js';
+import { getVentas, formatDate, formatMoney } from '../api.js?v=3';
 
 export async function render(container, user) {
     let ventas = [];

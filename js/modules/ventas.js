@@ -9,7 +9,7 @@ import {
     getProductos, 
     createVenta,
     uploadFile 
-} from '../api.js';
+} from '../api.js?v=3';
 
 export async function render(container, user) {
     let productos = [];
@@ -102,7 +102,7 @@ export async function render(container, user) {
         // Llenar select de productos
         const selectProductos = document.getElementById('producto_id');
         selectProductos.innerHTML = '<option value="">Selecciona un producto</option>' + 
-            productos.map(p => \`<option value="\${p.id}" data-precio="\${p.precio}">\${p.nombre} - $\${p.precio.toFixed(2)}</option>\`).join('');
+            productos.map(p => `<option value="${p.id}" data-precio="${p.precio}">${p.nombre} - $${p.precio.toFixed(2)}</option>`).join('');
 
         // Funciones globales
         window.toggleProductosSelect = () => {
@@ -196,6 +196,6 @@ export async function render(container, user) {
         };
 
     } catch (error) {
-        container.innerHTML = \`<div class="error">Error: \${error.message}</div>\`;
+        container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     }
 }

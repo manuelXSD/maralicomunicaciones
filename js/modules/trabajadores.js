@@ -12,7 +12,7 @@ import {
     uploadTrabajadorDocumento,
     deleteTrabajadorDocumento,
     uploadFile
-} from '../api.js';
+} from '../api.js?v=3';
 
 export async function render(container, user) {
     let trabajadores = [];

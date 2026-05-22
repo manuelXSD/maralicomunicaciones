@@ -2,7 +2,7 @@
  * Módulo HOME - Dashboard principal con estadísticas
  */
 
-import { getDashboardStats, formatMoney } from '../api.js';
+import { getDashboardStats, formatMoney } from '../api.js?v=3';
 
 export async function render(container, user) {
     try {

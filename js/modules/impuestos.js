@@ -10,7 +10,7 @@ import {
     getImpuestoDocumentos,
     uploadImpuestoDocumento,
     deleteImpuestoDocumento
-} from '../api.js';
+} from '../api.js?v=3';
 
 const TIPOS_IMPUESTO = [
     { value: 'imms', label: 'IMMS (Mensual)', frecuencia: 'mensual' },
