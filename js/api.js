@@ -664,10 +664,9 @@ export async function uploadTrabajadorDocumento(trabajadorId, file, userId) {
         const extension = file.name.split('.').pop();
         const fileName = `${Date.now()}_${file.name}`;
         const storagePath = `trabajadores/${trabajadorId}/${fileName}`;
-        const fileRef = ref(storage, storagePath);
-
-        await uploadBytes(fileRef, file);
-        const downloadURL = await getDownloadURL(fileRef);
+        
+        // Convertir a base64 en lugar de subir a Firebase Storage
+        const base64Data = await fileToBase64(file);
 
         await addDoc(collection(db, 'trabajadores_documentos'), {
             trabajador_id: trabajadorId,
@@ -677,13 +676,13 @@ export async function uploadTrabajadorDocumento(trabajadorId, file, userId) {
             tipo_archivo: extension.toUpperCase(),
             tamaño: file.size,
             fecha_subida: Timestamp.now(),
-            url_descarga: downloadURL
+            url_descarga: base64Data
         });
 
-        return { url: downloadURL, nombre: file.name };
+        return { url: base64Data, nombre: file.name };
     } catch (error) {
         console.error('Error al subir documento:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -797,10 +796,9 @@ export async function uploadImpuestoDocumento(impuestoId, file, impuestoData, us
         const extension = file.name.split('.').pop();
         const fileName = `${Date.now()}_${file.name}`;
         const storagePath = `impuestos/${impuestoData.tipo_impuesto}/${impuestoData.año}/${fileName}`;
-        const fileRef = ref(storage, storagePath);
-
-        await uploadBytes(fileRef, file);
-        const downloadURL = await getDownloadURL(fileRef);
+        
+        // Convertir a base64 en lugar de subir a Firebase Storage
+        const base64Data = await fileToBase64(file);
 
         await addDoc(collection(db, 'impuestos_documentos'), {
             impuesto_id: impuestoId,
@@ -813,13 +811,13 @@ export async function uploadImpuestoDocumento(impuestoId, file, impuestoData, us
             año: parseInt(impuestoData.año),
             usuario_id: userId,
             fecha_subida: Timestamp.now(),
-            url_descarga: downloadURL
+            url_descarga: base64Data
         });
 
-        return { url: downloadURL, nombre: file.name };
+        return { url: base64Data, nombre: file.name };
     } catch (error) {
         console.error('Error al subir documento:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -898,15 +896,14 @@ export async function uploadFacturaArchivo(file, userId) {
         const extension = file.name.split('.').pop();
         const fileName = `${Date.now()}_${file.name}`;
         const storagePath = `facturacion/${userId}/${fileName}`;
-        const fileRef = ref(storage, storagePath);
+        
+        // Convertir a base64 en lugar de subir a Firebase Storage
+        const base64Data = await fileToBase64(file);
 
-        await uploadBytes(fileRef, file);
-        const downloadURL = await getDownloadURL(fileRef);
-
-        return { url: downloadURL, nombre: file.name };
+        return { url: base64Data, nombre: file.name };
     } catch (error) {
         console.error('Error al subir factura:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
