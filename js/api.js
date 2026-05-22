@@ -89,7 +89,7 @@ export async function createProducto(productoData, userId) {
 
         const docRef = await addDoc(collection(db, 'productos'), {
             nombre: productoData.nombre,
-            codigo_producto: productoData.codigo_producto || '',
+            codigo: productoData.codigo || '',
             categoria: productoData.categoria || '',
             precio: parseFloat(productoData.precio),
             stock: parseInt(productoData.stock) || 0,
@@ -143,7 +143,7 @@ export async function updateProducto(productoId, productoData, userId) {
 
         const updateData = {
             nombre: productoData.nombre || producto.nombre,
-            codigo_producto: productoData.codigo_producto || producto.codigo_producto,
+            codigo: productoData.codigo || producto.codigo,
             categoria: productoData.categoria || producto.categoria,
             precio: productoData.precio ? parseFloat(productoData.precio) : producto.precio,
             stock: productoData.stock !== undefined ? parseInt(productoData.stock) : producto.stock,
@@ -167,15 +167,7 @@ export async function deleteProducto(productoId, userId) {
             throw new Error('No tienes permiso para eliminar este producto');
         }
 
-        if (producto.imagen) {
-            try {
-                const imagenRef = ref(storage, producto.imagen);
-                await deleteObject(imagenRef);
-            } catch (err) {
-                console.warn('Error al eliminar imagen:', err);
-            }
-        }
-
+        // Las imágenes se guardan como base64, no necesita eliminar de Firebase Storage
         await deleteDoc(doc(db, 'productos', productoId));
     } catch (error) {
         console.error('Error al eliminar producto:', error);

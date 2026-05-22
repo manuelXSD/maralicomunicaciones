@@ -138,7 +138,7 @@ export async function render(container, user) {
                 };
 
                 if (editingId) {
-                    await updateProducto(editingId, productoData);
+                    await updateProducto(editingId, productoData, user.uid);
                     showAlert('success', 'Producto actualizado correctamente');
                 } else {
                     await createProducto(productoData, user.uid);
@@ -171,7 +171,7 @@ export async function render(container, user) {
             if (!confirm('¿Seguro que deseas eliminar este producto?')) return;
 
             try {
-                await deleteProducto(id);
+                await deleteProducto(id, user.uid);
                 showAlert('success', 'Producto eliminado');
                 await loadProductos();
             } catch (error) {
