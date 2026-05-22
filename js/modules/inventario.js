@@ -192,10 +192,19 @@ export async function render(container, user) {
 
         async function loadProductos() {
             try {
+                const tbody = document.getElementById('productosTableBody');
+                if (tbody) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px;"><div class="loading"></div> Cargando...</td></tr>';
+                }
+                
                 productos = await getProductos(user.uid);
                 renderProductos();
             } catch (error) {
                 console.error('Error cargando productos:', error);
+                const tbody = document.getElementById('productosTableBody');
+                if (tbody) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 30px; color: #c00;">Error: ${error.message}</td></tr>`;
+                }
             }
         }
 

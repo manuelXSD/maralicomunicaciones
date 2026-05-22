@@ -112,14 +112,20 @@ export async function getProductos(userId) {
     try {
         const q = query(
             collection(db, 'productos'),
-            where('usuario_id', '==', userId),
-            orderBy('fecha_creacion', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const productos = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Ordenar por fecha_creacion en JavaScript (descendente)
+        return productos.sort((a, b) => {
+            const timeA = a.fecha_creacion?.toMillis?.() || 0;
+            const timeB = b.fecha_creacion?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener productos:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -205,14 +211,18 @@ export async function getClientes(userId) {
     try {
         const q = query(
             collection(db, 'clientes'),
-            where('usuario_id', '==', userId),
-            orderBy('fecha_registro', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const clientes = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return clientes.sort((a, b) => {
+            const timeA = a.fecha_registro?.toMillis?.() || 0;
+            const timeB = b.fecha_registro?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener clientes:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -340,14 +350,18 @@ export async function getVentas(userId) {
     try {
         const q = query(
             collection(db, 'ventas'),
-            where('usuario_id', '==', userId),
-            orderBy('fecha_venta', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const ventas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return ventas.sort((a, b) => {
+            const timeA = a.fecha_venta?.toMillis?.() || 0;
+            const timeB = b.fecha_venta?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener ventas:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -408,14 +422,18 @@ export async function getHistorialVentas(userId) {
     try {
         const q = query(
             collection(db, 'historial_ventas'),
-            where('usuario_id', '==', userId),
-            orderBy('fecha_registro', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const historial = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return historial.sort((a, b) => {
+            const timeA = a.fecha_registro?.toMillis?.() || 0;
+            const timeB = b.fecha_registro?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener historial:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -478,14 +496,18 @@ export async function getTickets(userId) {
     try {
         const q = query(
             collection(db, 'tickets'),
-            where('usuario_id', '==', userId),
-            orderBy('fecha_creacion', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const tickets = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return tickets.sort((a, b) => {
+            const timeA = a.fecha_creacion?.toMillis?.() || 0;
+            const timeB = b.fecha_creacion?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener tickets:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -537,14 +559,18 @@ export async function getTrabajadores(userId) {
     try {
         const q = query(
             collection(db, 'trabajadores'),
-            where('usuario_id', '==', userId),
-            orderBy('fecha_registro', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const trabajadores = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return trabajadores.sort((a, b) => {
+            const timeA = a.fecha_registro?.toMillis?.() || 0;
+            const timeB = b.fecha_registro?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener trabajadores:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -618,14 +644,18 @@ export async function getTrabajadorDocumentos(trabajadorId) {
     try {
         const q = query(
             collection(db, 'trabajadores_documentos'),
-            where('trabajador_id', '==', trabajadorId),
-            orderBy('fecha_subida', 'desc')
+            where('trabajador_id', '==', trabajadorId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const documentos = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return documentos.sort((a, b) => {
+            const timeA = a.fecha_subida?.toMillis?.() || 0;
+            const timeB = b.fecha_subida?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener documentos:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -711,15 +741,17 @@ export async function getImpuestos(userId) {
     try {
         const q = query(
             collection(db, 'impuestos_pagos'),
-            where('usuario_id', '==', userId),
-            orderBy('año', 'desc'),
-            orderBy('mes', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const impuestos = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return impuestos.sort((a, b) => {
+            if (b.año !== a.año) return b.año - a.año;
+            return b.mes - a.mes;
+        });
     } catch (error) {
         console.error('Error al obtener impuestos:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -745,14 +777,18 @@ export async function getImpuestoDocumentos(impuestoId) {
     try {
         const q = query(
             collection(db, 'impuestos_documentos'),
-            where('impuesto_id', '==', impuestoId),
-            orderBy('fecha_subida', 'desc')
+            where('impuesto_id', '==', impuestoId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const documentos = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return documentos.sort((a, b) => {
+            const timeA = a.fecha_subida?.toMillis?.() || 0;
+            const timeB = b.fecha_subida?.toMillis?.() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener documentos:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
@@ -842,14 +878,18 @@ export async function getFacturas(userId) {
     try {
         const q = query(
             collection(db, 'facturacion'),
-            where('usuario_id', '==', userId),
-            orderBy('fecha_emision', 'desc')
+            where('usuario_id', '==', userId)
         );
         const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const facturas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return facturas.sort((a, b) => {
+            const timeA = a.fecha_emision?.toMillis?.() || (new Date(a.fecha_emision)).getTime() || 0;
+            const timeB = b.fecha_emision?.toMillis?.() || (new Date(b.fecha_emision)).getTime() || 0;
+            return timeB - timeA;
+        });
     } catch (error) {
         console.error('Error al obtener facturas:', error);
-        throw new Error(parseFirebaseError(error.code));
+        throw new Error(parseFirebaseError(error.code) || error.message);
     }
 }
 
